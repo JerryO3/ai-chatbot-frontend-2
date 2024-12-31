@@ -8,7 +8,12 @@ export default function MessageList() {
     
     return (
         <div>
-            {messageList.map(message => <Message key={(message as MessageInterface).key} text={(message as MessageInterface).msg}></Message>)}
+            {messageList.map(message => 
+            <Message 
+            key={(message as MessageInterface).key} 
+            response={(message as MessageInterface).msg.response}
+            source={(message as MessageInterface).msg.sources}
+            ></Message>)}
         </div>
     )
 }

@@ -10,7 +10,10 @@ interface ChatHistory {
 
 export interface MessageInterface {
     key: number
-    msg: string
+    msg: {
+        response: string
+        sources: string | null
+    }
 }
 
 const initialState: ChatHistory = getChatHistory()
@@ -26,7 +29,7 @@ const messageListSlice = createSlice({
                 messages: {
                     ...state.messages, 
                     [new_index]: {
-                        message: action.payload
+                        message: {response: action.payload, sources: null}
                     }
                 }
             }
@@ -78,8 +81,7 @@ export const fetchResponse = createAsyncThunk(
       const data = await getResponse(message)
       const response = data.response
       const sources = data.sources
-      store.dispatch(messageReceived(response))
-      console.log(sources)
+      store.dispatch(messageReceived({response: response, sources: sources}))
     }
   )
 
