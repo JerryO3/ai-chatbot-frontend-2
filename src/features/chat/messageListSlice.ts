@@ -1,38 +1,76 @@
-import { Action } from '@reduxjs/toolkit'
-import {createSlice, ThunkAction} from '@reduxjs/toolkit'
-import store, { RootState } from '../../store'
+import {createSlice, createSelector} from '@reduxjs/toolkit'
+import store, {RootState} from '../../store'
 import { server } from '../../App'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const initialState: string[] = getChatHistory()
+interface ChatHistory {
+    messageIDs: string[]
+    messages: Object
+}
+
+export interface MessageInterface {
+    key: number
+    msg: string
+}
+
+const initialState: ChatHistory = getChatHistory()
 
 const messageListSlice = createSlice({
     name: 'messageList',
     initialState,
     reducers: {
         messageSending(state, action) {
-            return state.concat(action.payload)
+            const new_index = state.messageIDs.length.toString()
+            return {
+                messageIDs: state.messageIDs.concat(new_index), 
+                messages: {
+                    ...state.messages, 
+                    [new_index]: {
+                        message: action.payload
+                    }
+                }
+            }
         },
         messageReceived(state, action) {
-            return state.concat(action.payload)
-        }
+            const new_index = state.messageIDs.length.toString()
+            return {
+                messageIDs: state.messageIDs.concat(new_index), 
+                messages: {
+                    ...state.messages, 
+                    [new_index]: {
+                        message: action.payload
+                    }
+                }
+            }
+        },
     }
 })
 
-// note that the state object's fields are added to in configure store
-export const messageListSelector: (state:any) => (string[]) = state => {
-    localStorage.setItem('chathistory', JSON.stringify(store.getState().messageList))
-    return state.messageList
-}
+// note that the state object's fields are added to in configure store old syntx below:
+// export const messageListSelector: (state:any) => (string[]) = state => {
+//     localStorage.setItem('chathistory', JSON.stringify(store.getState().messageList))
+//     return (state.messageList.messageIDs as string[]).map(ids => state.messageList.messages[ids].message)
+// }
+
+// find out how create selector works, especially the bottom function!
+export const messageListSelector = createSelector.withTypes<RootState>()(
+    [
+        (state: RootState) => state.messageList.messageIDs,
+        (state: RootState) => state.messageList.messages,
+    ],
+    (ids, msgs) => {
+        localStorage.setItem('chathistory', JSON.stringify(store.getState().messageList))
+        return ids.map(id => {
+            return {
+                key: id,
+                msg: (msgs as any)[id].message
+            }
+        })
+    }
+)
+
 
 export const {messageSending, messageReceived} = messageListSlice.actions
-
-// export function fetchResponse(message: string): ThunkAction<void, RootState, unknown, Action<string>> {
-//     return async (dispatch: any, getState: any) => {
-//         const response = await getResponse(message)
-//         dispatch(messageReceived(response))
-//     }
-// }
 
 export const fetchResponse = createAsyncThunk(
     'fetchResponse',
@@ -47,11 +85,11 @@ export const fetchResponse = createAsyncThunk(
 
 export default messageListSlice
 
-function getChatHistory():string[] {
+function getChatHistory(): ChatHistory {
     if (localStorage.getItem('chathistory')) {
         return (JSON.parse(localStorage.getItem('chathistory')!))
     } else {
-        return []
+        return {messageIDs: [], messages: {}}
     }
 }
 
