@@ -5,7 +5,12 @@ import ChatBox from "./features/chat/ChatBox"
 import MessageList from "./features/chat/MessageList"
 import FileList from './features/files/FileList.tsx'
 
+import { fetchFileList } from './features/files/fileListSlice.ts'
+import { clearChat } from './features/chat/messageListSlice.ts'
+
 export const server = 'http://localhost:8000'
+
+store.dispatch(fetchFileList())
 
 function App() {
   return (
@@ -13,6 +18,7 @@ function App() {
       <FileList></FileList>
       <MessageList></MessageList>
       <ChatBox></ChatBox>
+      <button onClick={() => store.dispatch(clearChat())}> Clear Chat</button>
     </Provider>
   )
 }

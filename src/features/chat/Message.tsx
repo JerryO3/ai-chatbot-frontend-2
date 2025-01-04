@@ -22,7 +22,7 @@ function MessageWithSource(prop:{response: string, source: Object|null}) {
             </button>
             <div hidden={isHidden}>
                 {Object.keys(prop.source!).map(
-                    key => <div key="source">
+                    (key, index) => <div key={index}>
                                 <div>{key}</div>
                                 <div>{prop.source?(prop.source as any)[key]:""}</div>
                             </div>

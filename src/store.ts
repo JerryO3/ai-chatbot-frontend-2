@@ -1,7 +1,8 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import messageListSlice from "./features/chat/messageListSlice";
+import fileListSlice from "./features/files/fileListSlice";
 
-const rootReducer = combineSlices(messageListSlice)
+const rootReducer = combineSlices(messageListSlice, fileListSlice)
 
 const store = configureStore({
     reducer: rootReducer

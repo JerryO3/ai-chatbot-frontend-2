@@ -4,6 +4,7 @@ import { server } from '../../App'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 interface ChatHistory {
+    isLoading: boolean
     messageIDs: string[]
     messages: Object
 }
@@ -25,6 +26,7 @@ const messageListSlice = createSlice({
         messageSending(state, action) {
             const new_index = state.messageIDs.length.toString()
             return {
+                isLoading: true,
                 messageIDs: state.messageIDs.concat(new_index), 
                 messages: {
                     ...state.messages, 
@@ -37,6 +39,7 @@ const messageListSlice = createSlice({
         messageReceived(state, action) {
             const new_index = state.messageIDs.length.toString()
             return {
+                isLoading: false,
                 messageIDs: state.messageIDs.concat(new_index), 
                 messages: {
                     ...state.messages, 
@@ -46,6 +49,10 @@ const messageListSlice = createSlice({
                 }
             }
         },
+        clearChat(state) {
+            localStorage.clear()
+            return initialState
+        }
     }
 })
 
@@ -57,12 +64,13 @@ const messageListSlice = createSlice({
 
 // find out how create selector works, especially the bottom function!
 export const messageListSelector = createSelector.withTypes<RootState>()(
-    [
+    [   
+        (state: RootState) => state,
         (state: RootState) => state.messageList.messageIDs,
         (state: RootState) => state.messageList.messages,
     ],
-    (ids, msgs) => {
-        localStorage.setItem('chathistory', JSON.stringify(store.getState().messageList))
+    (state, ids, msgs) => {
+        localStorage.setItem('chathistory', JSON.stringify(state.messageList))
         return ids.map(id => {
             return {
                 key: id,
@@ -73,7 +81,7 @@ export const messageListSelector = createSelector.withTypes<RootState>()(
 )
 
 
-export const {messageSending, messageReceived} = messageListSlice.actions
+export const {messageSending, messageReceived, clearChat} = messageListSlice.actions
 
 export const fetchResponse = createAsyncThunk(
     'fetchResponse',
@@ -91,11 +99,11 @@ function getChatHistory(): ChatHistory {
     if (localStorage.getItem('chathistory')) {
         return (JSON.parse(localStorage.getItem('chathistory')!))
     } else {
-        return {messageIDs: [], messages: {}}
+        return {isLoading: false, messageIDs: [], messages: {}}
     }
 }
 
-export function getResponse(query: string) {
+function getResponse(query: string) {
     const obj = {
         "prompt": query,
         "stream": false,
