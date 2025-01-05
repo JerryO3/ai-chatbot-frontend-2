@@ -51,7 +51,7 @@ const messageListSlice = createSlice({
         },
         clearChat(state) {
             localStorage.clear()
-            return initialState
+            return {isLoading: false, messageIDs: [], messages: {}}
         }
     }
 })

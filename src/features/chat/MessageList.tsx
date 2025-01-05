@@ -14,7 +14,7 @@ export default function MessageList() {
     const messageList: Object[] = useSelector(messageListSelector)
     
     return (
-        <Box sx={{height: visualViewport?.height? visualViewport?.height * 0.95 : 1}}>
+        <Box sx={{height: visualViewport?.height? visualViewport?.height * 0.9 : 1, width:1}}>
             <Card variant="outlined" className="scrollable" sx={{ height: 0.85, overflowY: 'scroll' }}>
                 {messageList.map(message => 
                 <Message 
