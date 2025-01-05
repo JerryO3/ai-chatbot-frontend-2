@@ -4,7 +4,6 @@ import MessageList from "./features/chat/MessageList"
 import FileList from './features/files/FileList.tsx'
 
 import { fetchFileList } from './features/files/fileListSlice.ts'
-import { clearChat } from './features/chat/messageListSlice.ts'
 
 import { Box } from '@mui/material';
 
@@ -16,7 +15,6 @@ function App() {
   return (
     <Provider store={store}>
       <ListWrapperComponent></ListWrapperComponent>
-      <button onClick={() => store.dispatch(clearChat())}> Clear Chat</button>
     </Provider>
   )
 }
@@ -32,7 +30,9 @@ const ListWrapperComponent = () => {
         maxHeight: visualViewport?.height? visualViewport?.height * 0.95 : 1
       }}
     >
-    <FileList></FileList>
+      <Box sx={{minWidth:250}}>
+        <FileList></FileList>
+      </Box>
     <MessageList></MessageList>
   </Box>
   );

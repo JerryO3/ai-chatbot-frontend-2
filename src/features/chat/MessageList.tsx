@@ -8,12 +8,14 @@ import Card from '@mui/material/Card';
 
 import ChatBox from "./ChatBox";
 
+import '../../styles.css'
+
 export default function MessageList() {
     const messageList: Object[] = useSelector(messageListSelector)
     
     return (
-        <Box>
-            <Card variant="outlined" sx={{ maxHeight: 0.9, overflowY: 'scroll' }}>
+        <Box sx={{height: visualViewport?.height? visualViewport?.height * 0.95 : 1}}>
+            <Card variant="outlined" className="scrollable" sx={{ height: 0.85, overflowY: 'scroll' }}>
                 {messageList.map(message => 
                 <Message 
                 key={(message as MessageInterface).key} 
@@ -21,7 +23,9 @@ export default function MessageList() {
                 source={(message as MessageInterface).msg.sources}
                 ></Message>)}
             </Card>
-            <ChatBox></ChatBox>
+            <Box sx={{position: 'fixed', width: 0.85, bottom: 1}}>
+                <ChatBox></ChatBox>
+            </Box>
         </Box>
     )
 }

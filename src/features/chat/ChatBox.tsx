@@ -9,34 +9,39 @@ import Button from '@mui/material/Button';
 export default function ChatBox() {
     return (
         <Box>
-            <Card variant="outlined"
+            <Card
+                variant="outlined"
                 sx={{
-                  display: 'flex',       // Flexbox layout
-                  gap: 1,                // Gap between the boxes (spacing)
+                    display: 'flex',       // Flexbox layout
+                    flexWrap: 'wrap',      // Allow wrapping
+                    gap: 1,                // Gap between the elements
+                    width: 1,              // Full width
+                    alignItems: 'center',  // Align items vertically (centered)
+                    padding: 1             // Add padding for better aesthetics
                 }}
-              >
-                <Box sx={{width: 0.95}}>
+            >
+                <Box sx={{width: 1}}>
                     <TextField
                         sx={{
                             "& fieldset": { border: 'none' },
                           }}
                     id="textarea"
-                    placeholder="MultiLine with rows: 2 and rowsMax: 4"
+                    placeholder="Ask me anything!"
                     multiline
                     InputProps={{
                         style: {
                           fontSize: 14, // Adjust font size here
                         },
                       }}
-                    rows={4}
-                    maxRows={4}
+                    rows={6}
+                    maxRows={6}
                     fullWidth
                     />
                 </Box>
-            <Button variant="contained"onClick={() => {
-                store.dispatch(messageSending((document.getElementById('textarea') as HTMLInputElement).value))
-                store.dispatch(fetchResponse((document.getElementById('textarea') as HTMLInputElement).value))
-                }}>Send</Button>
+                <Button variant="contained"onClick={() => {
+                    store.dispatch(messageSending((document.getElementById('textarea') as HTMLInputElement).value))
+                    store.dispatch(fetchResponse((document.getElementById('textarea') as HTMLInputElement).value))
+                    }}>Send</Button>
             </Card>
         </Box>
     )

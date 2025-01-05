@@ -2,6 +2,19 @@ import { server } from "../../App";
 import store from "../../store";
 import { fetchFileList, fileListLoaded, fileListLoading } from "./fileListSlice";
 
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import { Input } from "@mui/material";
+import Typography from "@mui/material/Typography";
+
+const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files?.length) {
+        console.log("Selected files:", files);
+    }
+};
+
 /**
  * UploadComponent generates the file-uploading components for FileContainer.
  * It comprises a input that takes in files and a button that uploads the 
@@ -13,23 +26,65 @@ import { fetchFileList, fileListLoaded, fileListLoading } from "./fileListSlice"
 export function UploadComponent() {
 
     return (
-        <div className='uploadcomponent'>
-            <input
-                id="pathbox"
-                type='file'
-                multiple
-                className='pathbox'
+        <Box className='uploadcomponent'>
+            <Box sx={{width:250}}>
+            <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 1,
+                p: 3,
+                border: '2px dashed #ccc',
+                borderRadius: '12px',
+                backgroundColor: '#f9f9f9',
+                maxWidth: '400px',
+                margin: 'auto',
+                textAlign: 'center',
+                boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                '&:hover': {
+                    backgroundColor: '#f1f1f1',
+                },
+            }}
+        >
+            <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                Drag and Drop Your Files Here
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#666', mb: 2 }}>
+                or click to select files
+            </Typography>
+
+            <Button
+                variant="contained"
+                component="label"
+                sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    // p: 1.5,
+                    width: 'fit-content',
+                }}
             >
-            </input>
+                Choose Files
+                <input
+                    id="pathbox"
+                    type="file"
+                    hidden
+                    multiple
+                    onChange={handleFileSelection}
+                />
+            </Button>
             <div className='buttonholder'>
-                <button 
-                    className='sendpathbutton'
-                    onClick={() => uploadDocuments((document.getElementById("pathbox") as HTMLInputElement))}
-                >
-                    Upload Files
-                </button>
-            </div>
-        </div>
+                    <Button variant="outlined" 
+                        className='sendpathbutton'
+                        onClick={() => uploadDocuments((document.getElementById("pathbox") as HTMLInputElement))}
+                    >
+                        Upload Files
+                    </Button>
+                </div>
+        </Box>
+            </Box>
+        </Box>
     )
 }
 
