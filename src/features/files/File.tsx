@@ -1,13 +1,20 @@
+import { Box, Button, Card, Typography } from "@mui/material";
 import { server } from "../../App";
 import store from "../../store";
 import { fileListSelector, fileListLoading, fetchFileList } from "./fileListSlice";
 
 function File(props:{name:string}) {
     return (
-        <div>
-            <div>{props.name}</div>
-            <button onClick={() => {deleteDocument((fileListSelector(store.getState()) as any)[props.name])}}>delete</button>
-        </div>
+        <Box sx={{padding:1}}>
+            <Card sx={{display:'flex'}}>
+                <Box sx={{flex: 3}}>
+                <Typography variant="body2" sx={{padding:1}}>
+                    {props.name}
+                </Typography>
+                </Box>
+                <Button sx={{flex: 1}} onClick={() => {deleteDocument((fileListSelector(store.getState()) as any)[props.name])}}>delete</Button>
+            </Card>
+        </Box>
     )
 }
 

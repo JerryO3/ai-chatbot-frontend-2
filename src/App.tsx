@@ -27,13 +27,15 @@ const ListWrapperComponent = () => {
       sx={{
         display: 'flex',       // Flexbox layout
         gap: 2,                // Gap between the boxes (spacing)
-        maxHeight: visualViewport?.height? visualViewport?.height * 0.95 : 1
+        overflow: 'hidden',
       }}
     >
-      <Box sx={{minWidth:250}}>
+      <Box sx={{flex: 1, height:1, maxWidth: '400px',}}>
         <FileList></FileList>
       </Box>
-    <MessageList></MessageList>
+      <Box sx={{flex: 6.5, height:1}}>
+        <MessageList></MessageList>
+      </Box>
   </Box>
   );
 };

@@ -17,11 +17,11 @@ function FileList() {
     const isFileListLoading: boolean = useSelector(fileListLoadingSelector)
 
     return (
-        <Box sx={{height: visualViewport?.height? visualViewport?.height * 0.9 : 1}}>
-            <Card variant="outlined" className="scrollable" sx={{ height: 0.95, overflowY: 'scroll' }}>
-            {fileList.map(fname => <File key={fname} name={fname}></File>)}
+        <Box sx={{display: 'flex', flexDirection: 'column', height:'100vh', justifyContent: 'flex-end'}}>
+            <Card variant='outlined'className='scrollable' sx={{flex: 5, overflowY:'scroll'}}>
+                {fileList.map(fname => <File key={fname} name={fname}></File>)}
             </Card>
-            <Box sx={{position: 'fixed', width: 0.85, bottom: 1}}>
+            <Box sx={{flex: 1, padding: 1}}>
                 <UploadComponent></UploadComponent>
                 <Button onClick={deleteAll}>Delete All Files</Button>
                 <Button onClick={() => store.dispatch(clearChat())}> Clear Chat</Button>
