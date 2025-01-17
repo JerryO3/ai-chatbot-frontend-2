@@ -26,8 +26,8 @@ export default function MessageList() {
             <Box
                 className="scrollable"
                 sx={{
-                flex: 3,               // 3 parts of the total height (75%)
                 overflowY: 'auto',     // Scroll when content overflows
+                flexGrow: 100
                 }}
             >
                 {messageList.map((message) => (

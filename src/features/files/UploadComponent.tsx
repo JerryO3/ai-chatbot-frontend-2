@@ -30,9 +30,7 @@ export function UploadComponent() {
 
     return (
         <Box className='uploadcomponent'>
-            <Box sx={{width:250}}>
-                <FileUpload></FileUpload>
-            </Box>
+            <FileUpload></FileUpload>
         </Box>
     )
 }
@@ -91,9 +89,7 @@ function FileUpload() {
                 border: '2px dashed #ccc',
                 borderRadius: '12px',
                 backgroundColor: '#f9f9f9',
-                // maxWidth: '400px',
-                width: 1,
-                margin: 'auto',
+                // margin: 'auto',
                 textAlign: 'center',
                 boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
                 '&:hover': {

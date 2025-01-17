@@ -17,16 +17,18 @@ function FileList() {
     const isFileListLoading: boolean = useSelector(fileListLoadingSelector)
 
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', height:'100vh', justifyContent: 'flex-end'}}>
-            <Card variant='outlined'className='scrollable' sx={{flex: 5, overflowY:'scroll'}}>
+        <Card variant='outlined' sx={{display: 'flex', flexDirection: 'column', height:'100vh', justifyContent: 'flex-end'}}>
+            <Box className='scrollable' sx={{flex: 5, overflowY:'scroll'}}>
                 {fileList.map(fname => <File key={fname} name={fname}></File>)}
-            </Card>
-            <Box sx={{flex: 1, padding: 1}}>
-                <UploadComponent></UploadComponent>
-                <Button onClick={deleteAll}>Delete All Files</Button>
-                <Button onClick={() => store.dispatch(clearChat())}> Clear Chat</Button>
             </Box>
-        </Box>
+            <Box sx={{flex: 1, padding: 1, display:'flex', flexDirection:'column',  alignItems:'center'}}>
+                <UploadComponent></UploadComponent>
+                <Box>
+                    <Button onClick={deleteAll}>Delete All Files</Button>
+                    <Button onClick={() => store.dispatch(clearChat())}> Clear Chat</Button>
+                </Box>
+            </Box>
+        </Card>
     )
 }
 
